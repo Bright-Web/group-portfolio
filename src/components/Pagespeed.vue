@@ -9,7 +9,7 @@
         <Btn class="pagespeed__viewdetails" text="view details" modifier="inverse" href />
         <Btn class="pagespeed__visitwebsite" text="visit website" href />
       </div>
-    </div>
+
 
     <div v-if="loading">
       <div class="pagespeed__loading-container">
