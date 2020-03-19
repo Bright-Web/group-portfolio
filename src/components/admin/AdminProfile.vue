@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4 class="account">Logged in as Akash | Logout</h4>
+    <h4 class="account">Logged in as {{ user.firstName }} | Logout</h4>
     <div class="profile-container">
       <div class="projects">
         <h3>Projects</h3>
@@ -33,7 +33,7 @@
           </div>
           <div class="profile__item">
             <label for="email">Email</label>
-            <input type="email" name="email" :value="person.email" />
+            <input type="email" name="email" :value="user.email" />
           </div>
           <div class="profile__save-btn">
             <Btn text="Save Changes" />
@@ -47,13 +47,18 @@
 
 <script>
 import Btn from "../button/Btn";
+import axios from "axios";
+import * as config from "../../../config";
+
 export default {
   name: "adminProfile",
   components: {
     Btn
   },
+  props: ["userId"],
   data() {
     return {
+      user: {},
       person: {
         name: "Anton",
         blurb:
@@ -89,6 +94,23 @@ export default {
         }
       ]
     };
+  },
+  created: async function() {
+    const userId = this.$route.params.user;
+    this.user = await this.getUser(userId);
+  },
+  methods: {
+    getUser: function(userId) {
+      return axios
+        .get(`${config.apiUrl}/users/${userId}`)
+        .then(function(response) {
+          return response.data.user;
+        })
+        .catch(function(error) {
+          // handle error
+          console.log(error);
+        });
+    }
   }
 };
 </script>
@@ -140,7 +162,7 @@ export default {
       transition: ease-in-out 0.3s;
     }
   }
-  &__new-link{
+  &__new-link {
     display: flex;
     justify-content: center;
   }

@@ -64,7 +64,8 @@ const routes = [{
     {
       name: 'adminLogin',
       path: '/',
-      component: AdminLogin
+      component: AdminLogin,
+      props: true
     },
     {
       name: 'adminProfile',
@@ -75,7 +76,8 @@ const routes = [{
     {
       name: 'adminProject',
       path: 'project',
-      component: AdminProject
+      component: AdminProject,
+      props: true
     }
   ]
 }

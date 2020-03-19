@@ -43,7 +43,7 @@ export default {
           let user = response.data.user;
           if (user) {
             localStorage.userEmail = user.email;
-            this.$router.push({ path: `/${user.name}` });
+            this.$router.push({ name: "adminProfile", params: {user: user.id}});
           } else {
             // SOMETHING ELSE
           }

@@ -1,21 +1,27 @@
 <template>
   <div class="project">
-    <ProjectHeader :projectTitle="project.title"/>
+    <ProjectHeader :projectTitle="project.title" />
     <h2 class="project__heading-sub">{{ project.slogan }}</h2>
     <div class="project__body">
       <p>{{ project.body }}</p>
     </div>
     <div class="project__grid">
-      <div class="project__image"><img :src="project.desktopImageUrl" /></div>
-      <div class="project__image"><img :src="project.mobileImageUrl" /></div>
-      <div class="project__image"><img :src="project.mobileImageUrl" /></div>
+      <div class="project__image">
+        <img :src="project.desktopImageUrl" />
+      </div>
+      <div class="project__image">
+        <img :src="project.mobileImageUrl" />
+      </div>
+      <div class="project__image">
+        <img :src="project.mobileImageUrl" />
+      </div>
     </div>
     <div class="projects"></div>
   </div>
 </template>
 
 <script>
-import ProjectHeader from "./headers/ProjectHeader"
+import ProjectHeader from "./headers/ProjectHeader";
 import { EventBus } from "../main";
 import axios from "axios";
 import * as config from "../../config";
@@ -25,10 +31,10 @@ export default {
   components: {
     ProjectHeader
   },
-  props: ['projectId'],
+  props: ["projectId"],
   created: async function() {
     EventBus.$emit("changePage", "list");
-    this.project = await this.getProject()
+    this.project = await this.getProject();
   },
   data() {
     return {
@@ -36,13 +42,13 @@ export default {
     };
   },
   watch: {
-    projectId: async function(val, val2){
+    projectId: async function(val, val2) {
       console.log(val, val2);
-      this.project = await this.getProject()
+      this.project = await this.getProject();
     }
   },
   methods: {
-getProject: function() {
+    getProject: function() {
       return axios
         .get(`${config.apiUrl}/projects/${this.projectId}`)
         .then(function(response) {
@@ -82,8 +88,9 @@ getProject: function() {
   }
   &__image {
     margin: 0 1rem;
-    img{
-    box-shadow: $global-box-shadow;}
+    img {
+      box-shadow: $global-box-shadow;
+    }
   }
 
   &__grid {
