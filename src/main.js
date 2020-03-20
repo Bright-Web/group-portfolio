@@ -53,8 +53,9 @@ const routes = [{
   },
   {
     name: 'projectdetails',
-    path: '/projectdetails',
-    component: ProjectDetails
+    path: '/projectdetails/:projectId',
+    component: ProjectDetails,
+    props: true
   }]
 }, {
   path: '/admin',
@@ -63,17 +64,20 @@ const routes = [{
     {
       name: 'adminLogin',
       path: '/',
-      component: AdminLogin
+      component: AdminLogin,
+      props: true
     },
     {
       name: 'adminProfile',
-      path: 'profile',
-      component: AdminProfile
+      path: 'profile/:user',
+      component: AdminProfile,
+      props: true
     },
     {
       name: 'adminProject',
       path: 'project',
-      component: AdminProject
+      component: AdminProject,
+      props: true
     }
   ]
 }

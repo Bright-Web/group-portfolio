@@ -1,20 +1,27 @@
 <template>
   <div class="project">
-    <ProjectHeader />
+    <ProjectHeader :projectTitle="project.title" />
     <h2 class="project__heading-sub">{{ project.slogan }}</h2>
     <div class="project__body">
       <p>{{ project.body }}</p>
     </div>
     <div class="project__grid">
-      <img :src="project.desktopImageUrl" />
-      <img :src="project.mobileImageUrl" />
+      <div class="project__image">
+        <img :src="project.desktopImageUrl" />
+      </div>
+      <div class="project__image">
+        <img :src="project.mobileImageUrl" />
+      </div>
+      <div class="project__image">
+        <img :src="project.mobileImageUrl" />
+      </div>
     </div>
     <div class="projects"></div>
   </div>
 </template>
 
 <script>
-import ProjectHeader from "./headers/ProjectHeader"
+import ProjectHeader from "./headers/ProjectHeader";
 import { EventBus } from "../main";
 import axios from "axios";
 import * as config from "../../config";
@@ -24,34 +31,40 @@ export default {
   components: {
     ProjectHeader
   },
-  created() {
+  props: ["projectId"],
+  created: async function() {
     EventBus.$emit("changePage", "list");
+    this.project = await this.getProject();
   },
   data() {
     return {
-      project: {
-        title: "",
-        slogan: "",
-        body: "",
-        desktopImageUrl: "",
-        mobileImageUrl: ""
-      }
+      project: {}
     };
   },
+  watch: {
+    projectId: async function(val, val2) {
+      console.log(val, val2);
+      this.project = await this.getProject();
+    }
+  },
   methods: {
-    getProject: function(projectId) {
+    getProject: function() {
       return axios
-        .get(`${config.apiUrl}/projects/${projectId}`)
-        .then(res => {
-          return res.data.project;
+        .get(`${config.apiUrl}/projects/${this.projectId}`)
+        .then(function(response) {
+          return response.data.project;
         })
-        .catch(error => console.log(error));
+        .catch(function(error) {
+          // handle error
+          console.log(error);
+        });
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
+@import "../assets/scss/_variables";
 .project {
   padding: 2rem 6rem 2rem;
   width: 100%;
@@ -73,14 +86,22 @@ export default {
     line-height: 2rem;
     color: #2b2b2b;
   }
+  &__image {
+    margin: 0 1rem;
+    img {
+      box-shadow: $global-box-shadow;
+    }
+  }
 
   &__grid {
-    display: grid;
-    align-items: center;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 2rem;
-    padding: 2rem 0;
+    // display: grid;
+    // align-items: center;
+    // grid-template-columns: 1fr 1fr 1fr;
+    // grid-gap: 2rem;
+    // padding: 2rem 0;
     font-family: "Raleway", sans-serif;
+    display: flex;
+    width: 100%;
   }
 }
 </style>
